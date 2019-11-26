@@ -8,7 +8,7 @@ export default {
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
@@ -26,9 +26,10 @@ export default {
   */
   loading: { color: '#fff' },
   /*
-  ** Global CSS
+  ** Global CSS/SCSS
   */
   css: [
+    '@/assets/scss/index.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -51,6 +52,13 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios'
   ],
+  /*
+  ** bootstrap-vue
+  */
+  bootstrapVue: {
+    bootstrapCSS: false,
+    bootstrapVueCSS: false
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
