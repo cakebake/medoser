@@ -11,6 +11,12 @@ app.use((request, response, next) => {
   next()
 })
 
+app.get('/status', (request, response) => {
+  response.status(200).json({
+    'message': 'online'
+  })
+})
+
 app.post('/', (request, response) => {
   response.status(200).json({
     'message': 'hello from backend',

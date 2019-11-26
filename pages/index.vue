@@ -6,7 +6,7 @@
         medoser
       </h1>
       <h2 class="subtitle">
-        Media Download Server
+        Media Download Server ({{ status.message }})
       </h2>
       <pre>{{ message }}</pre>
     </div>
@@ -22,11 +22,15 @@ export default {
   },
   data () {
     return {
+      status: {
+        message: 'offline'
+      },
       message: 'Loading...'
     }
   },
   async asyncData ({ $axios }) {
     return {
+      status: await $axios.$get('/api/status'),
       message: await $axios.$post('/api', {
         message: 'hello from frontend'
       })
