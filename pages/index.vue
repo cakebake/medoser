@@ -72,7 +72,7 @@
           </b-card>
         </div>
         <div class="col-sm">
-          <b-card class="mt-3" header="Server Response" v-if="response">
+          <b-card v-if="response" class="mt-3" header="Server Response">
             <pre class="m-0">{{ response }}</pre>
           </b-card>
         </div>
