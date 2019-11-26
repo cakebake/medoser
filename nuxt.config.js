@@ -16,6 +16,12 @@ export default {
     ]
   },
   /*
+  ** Server middleware
+  */
+  serverMiddleware: [
+    '~/api/index'
+  ],
+  /*
   ** Customize the progress-bar color
   */
   loading: { color: '#fff' },

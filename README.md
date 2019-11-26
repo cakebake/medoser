@@ -2,6 +2,14 @@
 
 > Media Download Server
 
+## Usage
+
+### API
+
+POST `/api` Parameters
+
+- ...
+
 ## Build Setup
 
 ``` bash
