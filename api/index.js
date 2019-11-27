@@ -17,7 +17,14 @@ app.get('/', (request, response) => {
   })
 })
 
-app.post('/', (request, response) => {
+app.post('/info', (request, response) => {
+  response.json({
+    'message': 'success',
+    'data': request.body
+  })
+})
+
+app.post('/download', (request, response) => {
   response.json({
     'message': 'success',
     'data': request.body
