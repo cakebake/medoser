@@ -16,8 +16,14 @@ export const mutations = {
   }
 }
 
+export const getters = {
+  status (state) {
+    return state.status
+  }
+}
+
 export const actions = {
-  async getStatus ({ commit }) {
+  async fetchStatus ({ commit }) {
     try {
       const { message } = await this.$axios.$get('/api/status')
       commit('setOnline', message)
