@@ -24,7 +24,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: 'rgba(255, 255, 255, .4)' },
   /*
   ** Global CSS/SCSS
   */
@@ -50,7 +50,21 @@ export default {
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    // @see https://www.npmjs.com/package/nuxt-fontawesome
+    ['nuxt-fontawesome', {
+      component: 'awesome',
+      imports: [
+        {
+          set: '@fortawesome/free-solid-svg-icons',
+          icons: ['fas']
+        },
+        {
+          set: '@fortawesome/free-brands-svg-icons',
+          icons: ['fab']
+        }
+      ]
+    }]
   ],
   /*
   ** bootstrap-vue

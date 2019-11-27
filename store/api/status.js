@@ -2,7 +2,7 @@ const apiRoute = '/api'
 
 export const state = () => ({
   online: false,
-  message: ''
+  message: 'The API server is unreachable'
 })
 
 export const mutations = {

@@ -6,8 +6,6 @@
       </b-alert>
       <h1 class="subtitle">
         Media Download Server
-        <span v-if="status.online">(online)</span>
-        <span v-else>(offline)</span>
       </h1>
       <form-module v-if="status.online" />
       <div v-if="status.online" class="row">
