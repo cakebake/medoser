@@ -10,13 +10,13 @@
         <span v-else>(offline)</span>
       </h1>
       <b-form @submit="onSubmit" @reset="onReset" v-if="showForm && status.online">
-        <div class="d-none">
+        <div class="d-no ne">
           <b-form-input id="input-bot" v-model="honeypot" type="text" />
         </div>
         <b-form-group id="url" label="Download URL" label-for="url-input">
           <b-form-input
             id="url-input"
-            v-model="form.url"
+            v-model="url"
             type="text"
             required
             placeholder="Enter download URL"
@@ -49,19 +49,42 @@
 
 <script>
 export default {
-  data () {
-    return {
-      form: {
-        url: ''
-      },
-      honeypot: '',
-      showForm: true,
-      response: null
-    }
-  },
   computed: {
     status () {
       return this.$store.state.api.status
+    },
+    form () {
+      return {
+        url: this.url,
+        honeypot: this.honeypot
+      }
+    },
+    response () {
+      return this.$store.state.api.form.response
+    },
+    url: {
+      get () {
+        return this.$store.state.api.form.url
+      },
+      set (value) {
+        this.$store.commit('api/form/url', value)
+      }
+    },
+    honeypot: {
+      get () {
+        return this.$store.state.api.form.honeypot
+      },
+      set (value) {
+        this.$store.commit('api/form/honeypot', value)
+      }
+    },
+    showForm: {
+      get () {
+        return this.$store.state.api.form.show
+      },
+      set (value) {
+        this.$store.commit('api/form/show', value)
+      }
     }
   },
   async fetch ({ store, params }) {
@@ -70,16 +93,12 @@ export default {
   methods: {
     async onSubmit (e) {
       e.preventDefault()
-      if (this.honeypot !== '') {
-        throw new Error('Maybe you are not human at all?')
-      }
-      this.response = await this.$axios.$post('/api', this.form)
+      await this.$store.dispatch('api/form/request')
     },
     onReset (e) {
       e.preventDefault()
-      this.response = null
       // reset form values
-      this.form.url = ''
+      this.url = ''
       this.honeypot = ''
       // trick to reset/clear native browser form validation state
       this.showForm = false

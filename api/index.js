@@ -19,8 +19,8 @@ app.get('/', (request, response) => {
 
 app.post('/', (request, response) => {
   response.status(200).json({
-    'message': 'hello from backend',
-    'received': request.body
+    'message': 'success',
+    'data': request.body
   })
 })
 
