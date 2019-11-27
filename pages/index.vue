@@ -1,10 +1,15 @@
 <template>
   <div class="container-fluid">
     <div>
+      <b-alert v-model="!status.online && status.message" variant="danger">
+        {{ status.message }}
+      </b-alert>
       <h1 class="subtitle">
-        Media Download Server ({{ status.message }})
+        Media Download Server
+        <span v-if="status.online">(online)</span>
+        <span v-else>(offline)</span>
       </h1>
-      <b-form @submit="onSubmit" @reset="onReset" v-if="showForm">
+      <b-form @submit="onSubmit" @reset="onReset" v-if="showForm && status.online">
         <div class="d-none">
           <b-form-input id="input-bot" v-model="honeypot" type="text" />
         </div>
@@ -26,7 +31,7 @@
           Reset
         </b-button>
       </b-form>
-      <div class="row">
+      <div v-if="showForm && status.online" class="row">
         <div class="col-sm">
           <b-card class="mt-3" header="Form Data">
             <pre class="m-0">{{ form }}</pre>
@@ -46,9 +51,6 @@
 export default {
   data () {
     return {
-      status: {
-        message: 'offline'
-      },
       form: {
         url: ''
       },
@@ -57,10 +59,13 @@ export default {
       response: null
     }
   },
-  async asyncData ({ $axios }) {
-    return {
-      status: await $axios.$get('/api/status')
+  computed: {
+    status () {
+      return this.$store.state.api.status
     }
+  },
+  async fetch ({ store, params }) {
+    await store.dispatch('api/getStatus')
   },
   methods: {
     async onSubmit (e) {
