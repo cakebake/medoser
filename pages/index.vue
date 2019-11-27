@@ -9,29 +9,8 @@
         <span v-if="status.online">(online)</span>
         <span v-else>(offline)</span>
       </h1>
-      <b-form @submit="onSubmit" @reset="onReset" v-if="showForm && status.online">
-        <div class="d-no ne">
-          <b-form-input id="input-bot" v-model="honeypot" type="text" />
-        </div>
-        <b-form-group id="url" label="Download URL" label-for="url-input">
-          <b-form-input
-            id="url-input"
-            v-model="url"
-            type="text"
-            required
-            placeholder="Enter download URL"
-            size="lg"
-            autofocus
-          />
-        </b-form-group>
-        <b-button type="submit" variant="primary">
-          Submit
-        </b-button>
-        <b-button type="reset" variant="danger">
-          Reset
-        </b-button>
-      </b-form>
-      <div v-if="showForm && status.online" class="row">
+      <form-module />
+      <div v-if="status.online" class="row">
         <div class="col-sm">
           <b-card class="mt-3" header="Form Data">
             <pre class="m-0">{{ form }}</pre>
@@ -48,64 +27,28 @@
 </template>
 
 <script>
+import FormModule from '~/components/Form.vue'
+
 export default {
+  components: {
+    FormModule
+  },
   computed: {
     status () {
       return this.$store.state.api.status
     },
     form () {
       return {
-        url: this.url,
-        honeypot: this.honeypot
+        url: this.$store.state.api.form.url,
+        honeypot: this.$store.state.api.form.honeypot
       }
     },
     response () {
       return this.$store.state.api.form.response
-    },
-    url: {
-      get () {
-        return this.$store.state.api.form.url
-      },
-      set (value) {
-        this.$store.commit('api/form/url', value)
-      }
-    },
-    honeypot: {
-      get () {
-        return this.$store.state.api.form.honeypot
-      },
-      set (value) {
-        this.$store.commit('api/form/honeypot', value)
-      }
-    },
-    showForm: {
-      get () {
-        return this.$store.state.api.form.show
-      },
-      set (value) {
-        this.$store.commit('api/form/show', value)
-      }
     }
   },
   async fetch ({ store, params }) {
     await store.dispatch('api/status/fetch')
-  },
-  methods: {
-    async onSubmit (e) {
-      e.preventDefault()
-      await this.$store.dispatch('api/form/request')
-    },
-    onReset (e) {
-      e.preventDefault()
-      // reset form values
-      this.url = ''
-      this.honeypot = ''
-      // trick to reset/clear native browser form validation state
-      this.showForm = false
-      this.$nextTick(() => {
-        this.showForm = true
-      })
-    }
   }
 }
 </script>

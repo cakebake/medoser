@@ -21,10 +21,8 @@ export const mutations = {
   show (state, show) {
     state.show = show
   },
-  response (state, { status, message, data }) {
-    state.response.status = status
-    state.response.message = message
-    state.response.data = data
+  response (state, response) {
+    state.response = response
   }
 }
 
@@ -42,5 +40,10 @@ export const actions = {
       const status = typeof e.response !== 'undefined' ? e.response.status : 0
       commit('response', { status, message: e.message, data: null })
     }
+  },
+  reset ({ state, commit }) {
+    commit('url', '')
+    commit('honeypot', '')
+    commit('response', { status: 0, message: null, data: null })
   }
 }
