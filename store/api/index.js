@@ -1,3 +1,5 @@
+const apiRoute = '/api'
+
 export const state = () => ({
   status: {
     online: false,
@@ -6,12 +8,8 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setOnline (state, message) {
-    state.status.online = true
-    state.status.message = message
-  },
-  setOffline (state, message) {
-    state.status.online = false
+  status (state, online, message) {
+    state.status.online = online
     state.status.message = message
   }
 }
@@ -25,10 +23,10 @@ export const getters = {
 export const actions = {
   async fetchStatus ({ commit }) {
     try {
-      const { message } = await this.$axios.$get('/api/status')
-      commit('setOnline', message)
+      const { message } = await this.$axios.$get(apiRoute)
+      commit('status', true, message)
     } catch (e) {
-      commit('setOffline', `API offline. ${e.message}.`)
+      commit('status', false, `API offline. ${e.message}.`)
     }
   }
 }

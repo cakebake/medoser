@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div>
-      <b-alert v-model="!status.online && status.message" variant="danger">
+      <b-alert v-model="!status.online" variant="danger">
         {{ status.message }}
       </b-alert>
       <h1 class="subtitle">

@@ -11,7 +11,7 @@ app.use((request, response, next) => {
   next()
 })
 
-app.get('/status', (request, response) => {
+app.get('/', (request, response) => {
   response.status(200).json({
     'message': 'online'
   })
