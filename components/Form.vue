@@ -52,12 +52,12 @@ export default {
     }
   },
   methods: {
-    async submit (e) {
-      e.preventDefault()
+    async submit (event) {
+      event.preventDefault()
       await this.$store.dispatch('api/form/request')
     },
-    reset (e) {
-      e.preventDefault()
+    reset (event) {
+      event.preventDefault()
       this.$store.dispatch('api/form/reset')
       // trick to reset/clear native browser form validation state
       this.show = false

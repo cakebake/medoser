@@ -12,13 +12,13 @@ app.use((request, response, next) => {
 })
 
 app.get('/', (request, response) => {
-  response.status(200).json({
+  response.json({
     'message': 'online'
   })
 })
 
 app.post('/', (request, response) => {
-  response.status(200).json({
+  response.json({
     'message': 'success',
     'data': request.body
   })

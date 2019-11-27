@@ -9,15 +9,15 @@
         <span v-if="status.online">(online)</span>
         <span v-else>(offline)</span>
       </h1>
-      <form-module />
+      <form-module v-if="status.online" />
       <div v-if="status.online" class="row">
         <div class="col-sm">
-          <b-card class="mt-3" header="Form Data">
+          <b-card class="mt-3" header="Form">
             <pre class="m-0">{{ form }}</pre>
           </b-card>
         </div>
         <div class="col-sm">
-          <b-card v-if="response" class="mt-3" header="Server Response">
+          <b-card v-if="response" class="mt-3" header="Response">
             <pre class="m-0">{{ response }}</pre>
           </b-card>
         </div>
