@@ -4,6 +4,7 @@ export const state = () => ({
   url: '',
   honeypot: '',
   show: true,
+  modified: false,
   response: {
     status: 0,
     message: null,
@@ -14,12 +15,17 @@ export const state = () => ({
 export const mutations = {
   url (state, url) {
     state.url = url
+    state.modified = true
   },
   honeypot (state, honeypot) {
     state.honeypot = honeypot
+    state.modified = true
   },
   show (state, show) {
     state.show = show
+  },
+  modified (state, modified) {
+    state.modified = modified
   },
   response (state, response) {
     state.response = response
@@ -45,5 +51,6 @@ export const actions = {
     commit('url', '')
     commit('honeypot', '')
     commit('response', { status: 0, message: null, data: null })
+    commit('modified', false)
   }
 }
