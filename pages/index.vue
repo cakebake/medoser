@@ -61,11 +61,11 @@ export default {
   },
   computed: {
     status () {
-      return this.$store.getters['api/status']
+      return this.$store.state.api.status
     }
   },
   async fetch ({ store, params }) {
-    await store.dispatch('api/fetchStatus')
+    await store.dispatch('api/status/fetch')
   },
   methods: {
     async onSubmit (e) {

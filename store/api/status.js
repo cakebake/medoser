@@ -1,27 +1,19 @@
 const apiRoute = '/api'
 
 export const state = () => ({
-  status: {
-    online: false,
-    message: ''
-  }
+  online: false,
+  message: ''
 })
 
 export const mutations = {
   status (state, online, message) {
-    state.status.online = online
-    state.status.message = message
-  }
-}
-
-export const getters = {
-  status (state) {
-    return state.status
+    state.online = online
+    state.message = message
   }
 }
 
 export const actions = {
-  async fetchStatus ({ commit }) {
+  async fetch ({ commit }) {
     try {
       const { message } = await this.$axios.$get(apiRoute)
       commit('status', true, message)
