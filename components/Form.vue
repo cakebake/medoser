@@ -16,9 +16,11 @@
     </b-form-group>
     <div class="text-right">
       <b-button type="submit" variant="outline-primary">
+        <awesome :icon="['fas', 'save']" />
         Download
       </b-button>
       <b-button :disabled="!modified" type="reset" variant="outline-danger">
+        <awesome :icon="['fas', 'hand-peace']" />
         Reset
       </b-button>
     </div>

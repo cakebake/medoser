@@ -1,5 +1,3 @@
-const apiRoute = '/api'
-
 export const state = () => ({
   url: '',
   honeypot: '',
@@ -38,7 +36,7 @@ export const actions = {
       if (state.honeypot !== '') {
         throw new Error('Maybe you are not human at all?')
       }
-      const { message, data } = await this.$axios.$post(apiRoute, {
+      const { message, data } = await this.$axios.$post('/api', {
         url: state.url
       })
       commit('response', { status: 200, message, data })
