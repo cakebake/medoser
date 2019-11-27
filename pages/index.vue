@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid">
     <div>
-      <logo />
       <h1 class="title">
         medoser
       </h1>
@@ -82,12 +81,7 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  },
   data () {
     return {
       status: {
