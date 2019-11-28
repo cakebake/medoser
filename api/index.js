@@ -1,4 +1,5 @@
 import express from 'express'
+import info from '@/lib/youtube-dl/info'
 // import validator from 'validator'
 // import xssFilters from 'xss-filters'
 
@@ -17,11 +18,21 @@ app.get('/', (request, response) => {
   })
 })
 
-app.post('/info', (request, response) => {
-  response.json({
-    'message': 'success',
-    'data': request.body
-  })
+app.post('/info', async (request, response) => {
+  try {
+    const data = await info(request.body.url)
+    response.json({
+      message: 'success',
+      data,
+      error: null
+    })
+  } catch (error) {
+    response.json({
+      message: error.message,
+      data: null,
+      error
+    })
+  }
 })
 
 app.post('/download', (request, response) => {
