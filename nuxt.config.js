@@ -56,13 +56,22 @@ export default {
     ['nuxt-fontawesome', {
       component: 'awesome',
       imports: [
+        // fas
         {
           set: '@fortawesome/free-solid-svg-icons',
-          icons: ['fas']
+          icons: [
+            'faDragon',
+            'faTasks',
+            'faTools',
+            'faPlug',
+            'faSave',
+            'faHandPeace'
+          ]
         },
+        // fab
         {
           set: '@fortawesome/free-brands-svg-icons',
-          icons: ['fab']
+          icons: ['faGithub']
         }
       ]
     }]
