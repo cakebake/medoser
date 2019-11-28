@@ -1,6 +1,7 @@
 
 export default {
   mode: 'universal',
+  srcDir: 'client/',
   /*
   ** Headers of the page
   */
@@ -19,7 +20,7 @@ export default {
   ** Server middleware
   */
   serverMiddleware: [
-    '~/api/index'
+    './api/index'
   ],
   /*
   ** Customize the progress-bar color
