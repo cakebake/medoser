@@ -2,7 +2,7 @@ import express from 'express'
 // import validator from 'validator'
 // import xssFilters from 'xss-filters'
 
-const app = express()
+export const app = express()
 
 app.use(express.json())
 
