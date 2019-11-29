@@ -13,8 +13,8 @@ export const mutations = {
 export const actions = {
   async fetch ({ commit }) {
     try {
-      const { message } = await this.$axios.$get('/api')
-      commit('status', { online: true, message })
+      const { success, message } = await this.$axios.$get('/api')
+      commit('status', { online: success, message })
     } catch (e) {
       commit('status', { online: false, message: `offline. ${e.message}.` })
     }

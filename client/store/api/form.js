@@ -1,3 +1,5 @@
+import { get } from 'lodash'
+
 export const state = () => ({
   url: '',
   honeypot: '',
@@ -5,9 +7,9 @@ export const state = () => ({
   modified: false,
   response: {
     info: {
+      success: false,
       message: null,
-      data: null,
-      error: null
+      data: null
     }
   }
 })
@@ -27,8 +29,8 @@ export const mutations = {
   modified (state, modified) {
     state.modified = modified
   },
-  infoResponse (state, { message, data, error }) {
-    state.response.info = { message, data, error }
+  infoResponse (state, { success, message, data }) {
+    state.response.info = { success, message, data }
   }
 }
 
@@ -43,13 +45,14 @@ export const actions = {
       })
       commit('infoResponse', info)
     } catch (error) {
-      commit('infoResponse', { message: error.message, data: null, error })
+      const message = get(error, 'response.data.message', error.message)
+      commit('infoResponse', { success: false, message, data: null })
     }
   },
   reset ({ state, commit }) {
     commit('url', '')
     commit('honeypot', '')
-    commit('infoResponse', { message: null, data: null, error: null })
+    commit('infoResponse', { success: false, message: null, data: null })
     commit('modified', false)
   }
 }
