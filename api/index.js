@@ -1,5 +1,6 @@
 import express from 'express'
-import info from '@/lib/youtube-dl/info'
+import { get, isEmpty } from 'lodash'
+import info from '../lib/youtube-dl/info'
 // import validator from 'validator'
 // import xssFilters from 'xss-filters'
 
@@ -20,7 +21,11 @@ app.get('/', (request, response) => {
 
 app.post('/info', async (request, response) => {
   try {
-    const data = await info(request.body.url)
+    const url = get(request, 'body.url', null)
+    if (isEmpty(url)) {
+      throw new Error('Parameter "url" is required')
+    }
+    const data = await info(url)
     response.json({
       message: 'success',
       data,
@@ -28,7 +33,7 @@ app.post('/info', async (request, response) => {
     })
   } catch (error) {
     response.json({
-      message: error.message,
+      message: get(error, 'stderr', error.message),
       data: null,
       error
     })

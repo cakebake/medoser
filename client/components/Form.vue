@@ -61,7 +61,7 @@ export default {
   methods: {
     async submit (event) {
       event.preventDefault()
-      await this.$store.dispatch('api/form/download')
+      await this.$store.dispatch('api/form/request')
     },
     reset (event) {
       event.preventDefault()

@@ -4,9 +4,11 @@ export const state = () => ({
   show: true,
   modified: false,
   response: {
-    status: 0,
-    message: null,
-    data: null
+    info: {
+      message: null,
+      data: null,
+      error: null
+    }
   }
 })
 
@@ -25,30 +27,29 @@ export const mutations = {
   modified (state, modified) {
     state.modified = modified
   },
-  response (state, response) {
-    state.response = response
+  infoResponse (state, { message, data, error }) {
+    state.response.info = { message, data, error }
   }
 }
 
 export const actions = {
-  async download ({ state, commit }) {
+  async request ({ state, commit }) {
     try {
       if (state.honeypot !== '') {
         throw new Error('Maybe you are not human at all?')
       }
-      const { message, data } = await this.$axios.$post('/api/download', {
+      const info = await this.$axios.$post('/api/info', {
         url: state.url
       })
-      commit('response', { status: 200, message, data })
-    } catch (e) {
-      const status = typeof e.response !== 'undefined' ? e.response.status : 0
-      commit('response', { status, message: e.message, data: null })
+      commit('infoResponse', info)
+    } catch (error) {
+      commit('infoResponse', { message: error.message, data: null, error })
     }
   },
   reset ({ state, commit }) {
     commit('url', '')
     commit('honeypot', '')
-    commit('response', { status: 0, message: null, data: null })
+    commit('infoResponse', { message: null, data: null, error: null })
     commit('modified', false)
   }
 }
