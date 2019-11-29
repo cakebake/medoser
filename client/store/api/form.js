@@ -35,7 +35,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async request ({ state, commit }) {
+  async requestInfo ({ state, commit }) {
     try {
       if (state.honeypot !== '') {
         throw new Error('Maybe you are not human at all?')

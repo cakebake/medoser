@@ -1,5 +1,5 @@
 <template>
-  <b-form @submit="submit" @reset="reset" v-if="show" autocomplete="off">
+  <b-form v-if="show" @submit="requestDownload" @reset="resetForm" autocomplete="off">
     <div class="d-none">
       <b-form-input id="input-bot" v-model="honeypot" type="text" />
     </div>
@@ -7,6 +7,7 @@
       <b-form-input
         id="url-input"
         v-model="url"
+        :disabled="infoLoading"
         type="text"
         required
         placeholder="Enter download URL"
@@ -15,27 +16,53 @@
       />
     </b-form-group>
     <div class="text-right">
-      <b-button type="submit" variant="outline-primary">
-        <awesome :icon="['fas', 'save']" />
-        Download
-      </b-button>
       <b-button :disabled="!modified" type="reset" variant="outline-danger">
         <awesome :icon="['fas', 'hand-peace']" />
         Reset
+      </b-button>
+      <b-button type="submit" variant="outline-primary">
+        <awesome :icon="['fas', 'save']" />
+        Download
       </b-button>
     </div>
   </b-form>
 </template>
 
 <script>
+import { isEmpty } from 'lodash'
 export default {
+  data () {
+    return {
+      infoTask: 0,
+      infoLoading: false
+    }
+  },
   computed: {
     url: {
       get () {
         return this.$store.state.api.form.url
       },
       set (value) {
+        const start = () => {
+          this.infoTask = setTimeout(async () => {
+            this.infoLoading = true
+            await this.$store.dispatch('api/form/requestInfo')
+            this.infoLoading = false
+            this.infoTask = 0
+          }, 2000)
+        }
+        const cancel = () => {
+          if (this.infoTask !== 0) {
+            clearTimeout(this.infoTask)
+            this.infoTask = 0
+            this.infoLoading = false
+          }
+        }
         this.$store.commit('api/form/url', value)
+        cancel()
+        if (!isEmpty(value)) {
+          start()
+        }
       }
     },
     honeypot: {
@@ -59,14 +86,16 @@ export default {
     }
   },
   methods: {
-    async submit (event) {
+    requestDownload (event) {
       event.preventDefault()
-      await this.$store.dispatch('api/form/request')
+      alert('download')
     },
-    reset (event) {
+    resetForm (event) {
       event.preventDefault()
       this.$store.dispatch('api/form/reset')
       // trick to reset/clear native browser form validation state
+      this.infoLoading = false
+      this.infoTask = 0
       this.show = false
       this.$nextTick(() => {
         this.show = true
