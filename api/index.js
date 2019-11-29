@@ -15,7 +15,8 @@ app.use((request, response, next) => {
 
 app.get('/', (request, response) => {
   response.json({
-    'message': 'online'
+    success: true,
+    message: 'online'
   })
 })
 
@@ -27,23 +28,24 @@ app.post('/info', async (request, response) => {
     }
     const data = await info(url)
     response.json({
-      message: 'success',
-      data,
-      error: null
+      success: true,
+      message: `Information for ${url} has been determined`,
+      data
     })
   } catch (error) {
     response.json({
+      success: false,
       message: get(error, 'stderr', error.message),
-      data: null,
-      error
+      data: null
     })
   }
 })
 
 app.post('/download', (request, response) => {
   response.json({
-    'message': 'success',
-    'data': request.body
+    success: true,
+    message: 'success',
+    data: request.body
   })
 })
 

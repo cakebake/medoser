@@ -9,6 +9,7 @@ describe('Test the root path', () => {
     const response = await request(app).get('/')
       .expect('Content-Type', /json/)
       .expect(200, {
+        success: true,
         message: 'online'
       })
     expect(response.header).not.toHaveProperty('X-Powered-By')
@@ -21,9 +22,9 @@ describe('Test the root path', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
-    expect(body.message).toBe('success')
-    expect(body.data.id).toBe(id)
-    expect(body.error).toBe(null)
+    expect(body.success).toBeTruthy()
+    expect(body).toHaveProperty('message')
+    expect(body).toHaveProperty('data.id', id)
   })
   test('It should response error for failed POST /info', async () => {
     const { body } = await request(app).post('/info')
@@ -33,9 +34,21 @@ describe('Test the root path', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
-    expect(body.message).not.toBe('success')
-    expect(body.data).toBe(null)
-    expect(body.error).not.toBe(null)
+    expect(body.success).toBeFalsy()
+    expect(body).toHaveProperty('message')
+    expect(body.data).toBeNull()
+  })
+  test('It should response error for missing form params on POST /info', async () => {
+    const { body } = await request(app).post('/info')
+      .send({
+        hello: 'hello'
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+    expect(body.success).toBeFalsy()
+    expect(body).toHaveProperty('message')
+    expect(body.data).toBeNull()
   })
   test('It should response for POST /download', () => {
     const data = {
@@ -46,6 +59,7 @@ describe('Test the root path', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, {
+        success: true,
         message: 'success',
         data
       })
