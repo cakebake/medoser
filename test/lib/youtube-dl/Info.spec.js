@@ -13,7 +13,7 @@ describe('Test library youtube-dl/info', () => {
     } catch (e) {
       throw e
     }
-  })
+  }, 20000)
   test('It should fetch info from cache', async () => {
     try {
       expect(isCached(url)).toBeTruthy()
@@ -22,7 +22,7 @@ describe('Test library youtube-dl/info', () => {
     } catch (e) {
       throw e
     }
-  })
+  }, 20000)
   test('It should throw error on wrong url', async () => {
     await expect(info('lorem')).rejects.toThrow()
   })
